@@ -5,7 +5,7 @@ import Gradient from './Gradient';
 import mqtt from 'mqtt';
 
 function mqttClient() {
-    return mqtt.connect(process.env.NEXT_PUBLIC_MQTT_BROKER);
+    return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
 }
 
 function mqttSubscribe() {
