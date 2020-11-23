@@ -1,0 +1,45 @@
+.container {
+    height: 100vh;
+}
+
+.container--gradient {
+    height: 100vh;
+    background: rgb(73, 1, 69);
+    background: linear-gradient(
+        45deg,
+        rgba(73, 1, 69, 1) 0%,
+        rgba(147, 17, 93, 0.9528186274509804) 50%,
+        rgba(106, 29, 161, 1) 100%
+    );
+}
+
+.container__content {
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+    .container__content {
+        width: 960px;
+        padding: 0;
+        margin-left: auto;
+        margin-right: auto;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .container__content--center {
+        align-items: center;
+    }
+
+    .container__content--column {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1265px) {
+    .container__content {
+        width: 1168px;
+    }
+}
