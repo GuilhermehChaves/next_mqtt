@@ -1,0 +1,62 @@
+.circle {
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    transition:all 1s ease;
+    cursor: pointer;
+}
+
+.title {
+    margin: 0;
+    font-size: 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
+
+.value {
+    margin: 0;
+}
+
+.circle:hover {
+    height: 350px;
+    width: 350px;
+}
+
+.circle--first {
+    background: rgb(115, 177, 223);
+    background: linear-gradient(
+        45deg,
+        rgba(115, 177, 223, 1) 0%,
+        rgba(30, 161, 195, 0.969625350140056) 51%,
+        rgba(52, 116, 251, 1) 100%
+    );
+}
+
+.circle--second {
+    background: rgb(223, 162, 115);
+    background: linear-gradient(
+        45deg,
+        rgba(223, 162, 115, 1) 0%,
+        rgba(195, 185, 30, 0.969625350140056) 50%,
+        rgba(251, 199, 52, 1) 100%
+    );
+}
+
+.circle--third {
+    background: rgb(115, 223, 176);
+    background: linear-gradient(
+        45deg,
+        rgba(115, 223, 176, 1) 0%,
+        rgba(30, 195, 135, 0.969625350140056) 50%,
+        rgba(52, 251, 145, 1) 100%
+    );
+}
