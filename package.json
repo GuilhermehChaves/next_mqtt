@@ -9,6 +9,7 @@
     "server": "next start"
   },
   "dependencies": {
+    "chart.js": "^2.9.4",
     "dotenv": "^8.2.0",
     "mqtt": "^4.2.5",
     "next": "^10.0.2",

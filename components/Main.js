@@ -2,15 +2,24 @@ import Circle from "./Circle";
 import Container from './Container';
 import Gradient from './Gradient';
 
+import chartUtil from '../util/chart';
+
+import { useRef, useEffect } from 'react';
 import mqtt from 'mqtt';
 
-function mqttClient() {
-    return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
-}
+export default function Main() {
+    const riverRef = useRef(null);
+    const tempRef = useRef(null);
+    const humidityRef = useRef(null);
 
-function mqttSubscribe() {
+    var charts;
+
+    function mqttClient() {
+        return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
+    }
+
     const client = mqttClient();
-
+    
     client.on('connect', function () {
         client.subscribe('temperature');
     });
@@ -18,17 +27,38 @@ function mqttSubscribe() {
     client.on('message', function (topic, message) {
         console.log(topic, message.toString());
     });
-}
-export default function Main() {
+
+    useEffect(() => {
+        const chartsOptions = [
+            {
+                ctx: riverRef.current,
+                title: 'Nível',
+                colors: ['rgb(37,150,203)', 'rgba(37,150,203,0.2)']
+            },
+            {
+                ctx: tempRef.current,
+                title: 'Temperatura',
+                colors: ['rgb(199,182,34)', 'rgba(199,182,34,0.2)']
+            },
+            {
+                ctx: humidityRef.current,
+                title: 'Umidade',
+                colors: ['rgb(37,201,136)', 'rgba(37,201,136,0.2)']
+            }
+        ];
+
+        charts = chartUtil.initCharts(chartsOptions);
+    }, [riverRef.current, tempRef.current, humidityRef.current]);
+
     return (
         <div>
-            <Gradient>
+            <Gradient className="whitetext">
                 <div className="col">
                     <h1 className="phrase tlt">
                         Monitore o rio em tempo real.
                     </h1>
 
-                    <Container>
+                    <Container className="container__content--center whitetext">
                         <Circle
                             className="circle--first"
                             href="#river"
@@ -45,7 +75,7 @@ export default function Main() {
 
                         <Circle
                             className="circle--second"
-                            href="#river"
+                            href="#temperature"
                             id="value-nivel"
                             title="Nível do rio"
                             value_name="Temperatura">
@@ -69,7 +99,7 @@ export default function Main() {
 
                         <Circle
                             className="circle--third"
-                            href="#river"
+                            href="#humidity"
                             id="value-nivel"
                             title="Umidade"
                             value_name="Umidade relativa">
@@ -84,7 +114,33 @@ export default function Main() {
                 </div>
             </Gradient>
 
-            {mqttSubscribe()}
+            <Container id="river" className="blacktext">
+                <div className="col">
+                    <h1> Nível do rio </h1>
+                    <div className="chart">
+                        <canvas ref={riverRef}></canvas>
+                    </div>
+                </div>
+            </Container>
+
+            <Container id="temperature" className="blacktext">
+                <div className="col">
+                    <h1> Temperatura </h1>
+                    <div className="chart">
+                        <canvas ref={tempRef}></canvas>
+                    </div>
+                </div>
+            </Container>
+
+            <Container id="humidity" className="blacktext">
+                <div className="col">
+                    <h1> Umidade relativa </h1>
+                    <div className="chart">
+                        <canvas ref={humidityRef}></canvas>
+                    </div>
+                </div>
+            </Container>
+
         </div>
     );
 }

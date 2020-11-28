@@ -1,6 +1,6 @@
 export default function Container(props) {
     return (
-        <div className="container__content container__content--center">
+        <div id={props.id} className={`container__content ${props.className}`}>
             {props.children}
         </div>
     );
