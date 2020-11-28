@@ -19,6 +19,14 @@
     flex-direction: column;
 }
 
+.blacktext {
+    color: black;
+}
+
+.whitetext {
+    color: white;
+}
+
 @media (min-width: 1024px) {
     .container__content {
         width: 960px;

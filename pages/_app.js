@@ -4,6 +4,7 @@ import '../styles/container.css'
 import '../styles/icon.css';
 import '../styles/nav.css';
 import '../styles/base.css'
+import '../styles/chart.css'
 
 export default function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />

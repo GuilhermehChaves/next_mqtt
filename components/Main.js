@@ -2,6 +2,9 @@ import Circle from "./Circle";
 import Container from './Container';
 import Gradient from './Gradient';
 
+import util from '../util/util';
+
+import { useRef, useEffect } from 'react';
 import mqtt from 'mqtt';
 
 function mqttClient() {
@@ -19,16 +22,27 @@ function mqttSubscribe() {
         console.log(topic, message.toString());
     });
 }
+
 export default function Main() {
+    const riverRef = useRef(null);
+    const tempRef = useRef(null);
+    const humidityRef = useRef(null);
+
+    var charts;
+
+    useEffect(() => {
+        charts = util.initCharts([riverRef.current, tempRef.current, humidityRef.current]);
+    }, [riverRef.current, tempRef.current, humidityRef.current]);
+
     return (
         <div>
-            <Gradient>
+            <Gradient className="whitetext">
                 <div className="col">
                     <h1 className="phrase tlt">
                         Monitore o rio em tempo real.
                     </h1>
 
-                    <Container>
+                    <Container className="container__content--center whitetext">
                         <Circle
                             className="circle--first"
                             href="#river"
@@ -45,7 +59,7 @@ export default function Main() {
 
                         <Circle
                             className="circle--second"
-                            href="#river"
+                            href="#temperature"
                             id="value-nivel"
                             title="Nível do rio"
                             value_name="Temperatura">
@@ -69,7 +83,7 @@ export default function Main() {
 
                         <Circle
                             className="circle--third"
-                            href="#river"
+                            href="#humidity"
                             id="value-nivel"
                             title="Umidade"
                             value_name="Umidade relativa">
@@ -83,6 +97,33 @@ export default function Main() {
                     </Container>
                 </div>
             </Gradient>
+
+            <Container id="river" className="blacktext">
+                <div className="col">
+                    <h1> Nível do rio </h1>
+                    <div className="chart">
+                        <canvas ref={riverRef}></canvas>
+                    </div>
+                </div>
+            </Container>
+
+            <Container id="temperature" className="blacktext">
+                <div className="col">
+                    <h1> Temperatura </h1>
+                    <div className="chart">
+                        <canvas ref={tempRef}></canvas>
+                    </div>
+                </div>
+            </Container>
+
+            <Container id="humidity" className="blacktext">
+                <div className="col">
+                    <h1> Umidade relativa </h1>
+                    <div className="chart">
+                        <canvas ref={humidityRef}></canvas>
+                    </div>
+                </div>
+            </Container>
 
             {mqttSubscribe()}
         </div>

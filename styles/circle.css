@@ -11,6 +11,7 @@
     font-size: 36px;
     transition:all 1s ease;
     cursor: pointer;
+    color: white;
 }
 
 .title {
