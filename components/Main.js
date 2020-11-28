@@ -2,7 +2,7 @@ import Circle from "./Circle";
 import Container from './Container';
 import Gradient from './Gradient';
 
-import util from '../util/util';
+import chartUtil from '../util/chart';
 
 import { useRef, useEffect } from 'react';
 import mqtt from 'mqtt';
@@ -47,7 +47,7 @@ export default function Main() {
             }
         ];
 
-        charts = util.initCharts(chartsOptions);
+        charts = chartUtil.initCharts(chartsOptions);
     }, [riverRef.current, tempRef.current, humidityRef.current]);
 
     return (
