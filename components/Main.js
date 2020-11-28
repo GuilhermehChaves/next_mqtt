@@ -7,22 +7,6 @@ import util from '../util/util';
 import { useRef, useEffect } from 'react';
 import mqtt from 'mqtt';
 
-function mqttClient() {
-    return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
-}
-
-function mqttSubscribe() {
-    const client = mqttClient();
-
-    client.on('connect', function () {
-        client.subscribe('temperature');
-    });
-
-    client.on('message', function (topic, message) {
-        console.log(topic, message.toString());
-    });
-}
-
 export default function Main() {
     const riverRef = useRef(null);
     const tempRef = useRef(null);
@@ -30,8 +14,40 @@ export default function Main() {
 
     var charts;
 
+    function mqttClient() {
+        return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
+    }
+
+    const client = mqttClient();
+    
+    client.on('connect', function () {
+        client.subscribe('temperature');
+    });
+
+    client.on('message', function (topic, message) {
+        console.log(topic, message.toString());
+    });
+
     useEffect(() => {
-        charts = util.initCharts([riverRef.current, tempRef.current, humidityRef.current]);
+        const chartsOptions = [
+            {
+                ctx: riverRef.current,
+                title: 'Nível',
+                colors: ['rgb(37,150,203)', 'rgba(37,150,203,0.2)']
+            },
+            {
+                ctx: tempRef.current,
+                title: 'Temperatura',
+                colors: ['rgb(199,182,34)', 'rgba(199,182,34,0.2)']
+            },
+            {
+                ctx: humidityRef.current,
+                title: 'Umidade',
+                colors: ['rgb(37,201,136)', 'rgba(37,201,136,0.2)']
+            }
+        ];
+
+        charts = util.initCharts(chartsOptions);
     }, [riverRef.current, tempRef.current, humidityRef.current]);
 
     return (
@@ -125,7 +141,6 @@ export default function Main() {
                 </div>
             </Container>
 
-            {mqttSubscribe()}
         </div>
     );
 }
