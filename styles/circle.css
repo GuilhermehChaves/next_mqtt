@@ -27,11 +27,6 @@
     margin: 0;
 }
 
-.circle:hover {
-    height: 350px;
-    width: 350px;
-}
-
 .circle--first {
     background: rgb(115, 177, 223);
     background: linear-gradient(
