@@ -16,9 +16,9 @@ export default function Main() {
         return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
     }
 
-    const [level, setLevel] = useState(null);
-    const [temp, setTemp] = useState(null);
-    const [humidity, setHumidity] = useState(null);
+    const [level, setLevel] = useState('');
+    const [temp, setTemp] = useState('');
+    const [humidity, setHumidity] = useState('');
 
     const client = mqttClient();
 
@@ -31,38 +31,16 @@ export default function Main() {
     const [charts, setCharts] = useState(null);
 
     client.on('message', function (topic, message) {
-        const date = new Date();
         if (topic == 'level') {
             setLevel(message.toString());
-
-            if (charts != null) {
-                charts[0].config.data.labels.push(chartUtil.time(date));
-                charts[0].config.data.datasets[0].data.push(message.toString());
-                charts[0].update();
-                chartUtil.lastOneMinute(charts[0]);
-            }
         }
 
         if (topic == 'temperature') {
             setTemp(message.toString());
-
-            if (charts != null) {
-                charts[1].config.data.labels.push(chartUtil.time(date));
-                charts[1].config.data.datasets[0].data.push(message.toString());
-                charts[1].update();
-                chartUtil.lastOneMinute(charts[1]);
-            }
         }
 
         if (topic == 'humidity') {
             setHumidity(message.toString());
-
-            if (charts != null) {
-                charts[2].config.data.labels.push(chartUtil.time(date));
-                charts[2].config.data.datasets[0].data.push(message.toString());
-                charts[2].update();
-                chartUtil.lastOneMinute(charts[2]);
-            }
         }
     });
 
@@ -87,6 +65,40 @@ export default function Main() {
 
         setCharts(chartUtil.initCharts(chartsOptions));
     }, [riverRef.current, tempRef.current, humidityRef.current]);
+
+
+    useEffect(() => {
+        const date = new Date();
+
+        if (charts != null) {
+            charts[0].config.data.labels.push(chartUtil.time(date));
+            charts[0].config.data.datasets[0].data.push(level);
+            charts[0].update();
+            chartUtil.lastOneMinute(charts[0]);
+        }
+    }, [level]);
+
+    useEffect(() => {
+        const date = new Date();
+
+        if (charts != null) {
+            charts[1].config.data.labels.push(chartUtil.time(date));
+            charts[1].config.data.datasets[0].data.push(temp);
+            charts[1].update();
+            chartUtil.lastOneMinute(charts[1]);
+        }
+    }, [temp]);
+
+    useEffect(() => {
+        const date = new Date();
+
+        if (charts != null) {
+            charts[2].config.data.labels.push(chartUtil.time(date));
+            charts[2].config.data.datasets[0].data.push(humidity);
+            charts[2].update();
+            chartUtil.lastOneMinute(charts[2]);
+        }
+    }, [humidity]);
 
     return (
         <div>
