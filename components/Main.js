@@ -116,7 +116,7 @@ export default function Main() {
                             className="circle--second"
                             href="#temperature"
                             id="value-nivel"
-                            title="Nível do rio"
+                            title="Temperatura"
                             value_name="Temperatura"
                             value={temp == null ? '0' : temp}>
 
@@ -141,7 +141,7 @@ export default function Main() {
                             className="circle--third"
                             href="#humidity"
                             id="value-nivel"
-                            title="Umidade"
+                            title="Umidade relativa"
                             value_name="Umidade relativa"
                             value={humidity == null ? '0' : humidity}>
 
