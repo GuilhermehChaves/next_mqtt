@@ -21,29 +21,51 @@ export default function Main() {
     const [humidity, setHumidity] = useState(null);
 
     const client = mqttClient();
-    
+
     client.on('connect', function () {
         client.subscribe('level');
         client.subscribe('temperature');
         client.subscribe('humidity');
     });
 
+    const [charts, setCharts] = useState(null);
+
     client.on('message', function (topic, message) {
-        if(topic == 'level') {
+        const date = new Date();
+        if (topic == 'level') {
             setLevel(message.toString());
+
+            if (charts != null) {
+                charts[0].config.data.labels.push(chartUtil.time(date));
+                charts[0].config.data.datasets[0].data.push(message.toString());
+                charts[0].update();
+                chartUtil.lastOneMinute(charts[0]);
+            }
         }
 
-        if(topic == 'temperature') {
+        if (topic == 'temperature') {
             setTemp(message.toString());
+
+            if (charts != null) {
+                charts[1].config.data.labels.push(chartUtil.time(date));
+                charts[1].config.data.datasets[0].data.push(message.toString());
+                charts[1].update();
+                chartUtil.lastOneMinute(charts[1]);
+            }
         }
 
-        if(topic == 'humidity') {
+        if (topic == 'humidity') {
             setHumidity(message.toString());
+
+            if (charts != null) {
+                charts[2].config.data.labels.push(chartUtil.time(date));
+                charts[2].config.data.datasets[0].data.push(message.toString());
+                charts[2].update();
+                chartUtil.lastOneMinute(charts[2]);
+            }
         }
     });
 
-    var charts;
-    
     useEffect(() => {
         const chartsOptions = [
             {
@@ -63,7 +85,7 @@ export default function Main() {
             }
         ];
 
-        charts = chartUtil.initCharts(chartsOptions);
+        setCharts(chartUtil.initCharts(chartsOptions));
     }, [riverRef.current, tempRef.current, humidityRef.current]);
 
     return (
@@ -80,7 +102,7 @@ export default function Main() {
                             href="#river"
                             id="value-nivel"
                             title="Nível do rio"
-                            value_name="Nível do rio" 
+                            value_name="Nível do rio"
                             value={level == null ? '0' : level}>
 
                             <svg className="river" id="Layer_1" enable-background="new 0 0 496 496" height="24"
