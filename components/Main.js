@@ -157,25 +157,29 @@ export default function Main() {
 
             <Container id="river" className="blacktext">
                 <div className="col">
-                    <h1> Nível do rio </h1>
+                    <h1 className="chart_title__level"> Nível do rio </h1>
                     <div className="chart">
                         <canvas ref={riverRef}></canvas>
                     </div>
                 </div>
             </Container>
 
+            <hr className="hr_level"/>
+
             <Container id="temperature" className="blacktext">
                 <div className="col">
-                    <h1> Temperatura </h1>
+                    <h1 className="chart_title__temperature"> Temperatura </h1>
                     <div className="chart">
                         <canvas ref={tempRef}></canvas>
                     </div>
                 </div>
             </Container>
 
+            <hr className="hr_temperature"/>
+
             <Container id="humidity" className="blacktext">
                 <div className="col">
-                    <h1> Umidade relativa </h1>
+                    <h1 className="chart_title__humidity"> Umidade relativa </h1>
                     <div className="chart">
                         <canvas ref={humidityRef}></canvas>
                     </div>
