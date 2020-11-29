@@ -4,7 +4,7 @@ import Gradient from './Gradient';
 
 import chartUtil from '../util/chart';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import mqtt from 'mqtt';
 
 export default function Main() {
@@ -12,22 +12,38 @@ export default function Main() {
     const tempRef = useRef(null);
     const humidityRef = useRef(null);
 
-    var charts;
-
     function mqttClient() {
         return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
     }
 
+    const [level, setLevel] = useState(null);
+    const [temp, setTemp] = useState(null);
+    const [humidity, setHumidity] = useState(null);
+
     const client = mqttClient();
     
     client.on('connect', function () {
+        client.subscribe('level');
         client.subscribe('temperature');
+        client.subscribe('humidity');
     });
 
     client.on('message', function (topic, message) {
-        console.log(topic, message.toString());
+        if(topic == 'level') {
+            setLevel(message.toString());
+        }
+
+        if(topic == 'temperature') {
+            setTemp(message.toString());
+        }
+
+        if(topic == 'humidity') {
+            setHumidity(message.toString());
+        }
     });
 
+    var charts;
+    
     useEffect(() => {
         const chartsOptions = [
             {
@@ -64,7 +80,8 @@ export default function Main() {
                             href="#river"
                             id="value-nivel"
                             title="Nível do rio"
-                            value_name="Nível do rio" >
+                            value_name="Nível do rio" 
+                            value={level == null ? '0' : level}>
 
                             <svg className="river" id="Layer_1" enable-background="new 0 0 496 496" height="24"
                                 viewBox="0 0 496 496" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +95,8 @@ export default function Main() {
                             href="#temperature"
                             id="value-nivel"
                             title="Nível do rio"
-                            value_name="Temperatura">
+                            value_name="Temperatura"
+                            value={temp == null ? '0' : temp}>
 
                             <svg className="ph" viewBox="-25 0 512 512.00004" xmlns="http://www.w3.org/2000/svg" height="24"
                                 width="24">
@@ -102,7 +120,8 @@ export default function Main() {
                             href="#humidity"
                             id="value-nivel"
                             title="Umidade"
-                            value_name="Umidade relativa">
+                            value_name="Umidade relativa"
+                            value={humidity == null ? '0' : humidity}>
 
                             <svg className="water" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
