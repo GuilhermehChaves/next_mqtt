@@ -1,6 +1,7 @@
 import Circle from "./Circle";
 import Container from './Container';
 import Gradient from './Gradient';
+import Alert from './Alert';
 
 import chartUtil from '../util/chart';
 
@@ -16,9 +17,10 @@ export default function Main() {
         return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
     }
 
-    const [level, setLevel] = useState('');
-    const [temp, setTemp] = useState('');
-    const [humidity, setHumidity] = useState('');
+    const [level, setLevel] = useState(null);
+    const [temp, setTemp] = useState(null);
+    const [humidity, setHumidity] = useState(null);
+    const [warning, setWarning] = useState(false);
 
     const client = mqttClient();
 
@@ -70,6 +72,8 @@ export default function Main() {
     useEffect(() => {
         const date = new Date();
 
+        setWarning(level < 70);
+
         if (charts != null) {
             charts[0].config.data.labels.push(chartUtil.time(date));
             charts[0].config.data.datasets[0].data.push(level);
@@ -115,7 +119,10 @@ export default function Main() {
                             id="value-nivel"
                             title="Nível do rio"
                             value_name="Nível do rio"
-                            value={level == null ? '0' : level}>
+                            value={level == null ? '0' : level}
+                            unity="cm">
+
+                            {warning ? <Alert title="Alerta"/> : null}
 
                             <svg className="river" id="Layer_1" enable-background="new 0 0 496 496" height="24"
                                 viewBox="0 0 496 496" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +137,8 @@ export default function Main() {
                             id="value-nivel"
                             title="Temperatura"
                             value_name="Temperatura"
-                            value={temp == null ? '0' : temp}>
+                            value={temp == null ? '0' : temp}
+                            unity="°C">
 
                             <svg className="ph" viewBox="-25 0 512 512.00004" xmlns="http://www.w3.org/2000/svg" height="24"
                                 width="24">
@@ -155,7 +163,8 @@ export default function Main() {
                             id="value-nivel"
                             title="Umidade relativa"
                             value_name="Umidade relativa"
-                            value={humidity == null ? '0' : humidity}>
+                            value={humidity == null ? '0' : humidity}
+                            unity="%">
 
                             <svg className="water" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
