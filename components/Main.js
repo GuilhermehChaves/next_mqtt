@@ -41,14 +41,40 @@ export default function Main() {
         client.on('message', function (topic, message) {
             if (topic == 'level') {
                 setLevel(message.toString());
+                const date = new Date();
+
+                setWarning(level < 70);
+        
+                if (charts != null) {
+                    charts[0].config.data.labels.push(chartUtil.time(date));
+                    charts[0].config.data.datasets[0].data.push(level);
+                    charts[0].update();
+                    chartUtil.move(charts[0]);
+                }
             }
 
             if (topic == 'temperature') {
                 setTemp(message.toString());
+                const date = new Date();
+
+                if (charts != null) {
+                    charts[1].config.data.labels.push(chartUtil.time(date));
+                    charts[1].config.data.datasets[0].data.push(temp);
+                    charts[1].update();
+                    chartUtil.move(charts[1]);
+                }
             }
 
             if (topic == 'humidity') {
                 setHumidity(message.toString());
+                const date = new Date();
+
+                if (charts != null) {
+                    charts[2].config.data.labels.push(chartUtil.time(date));
+                    charts[2].config.data.datasets[0].data.push(humidity);
+                    charts[2].update();
+                    chartUtil.move(charts[2]);
+                }
             }
         });
     }
@@ -78,40 +104,40 @@ export default function Main() {
     }, [riverRef.current, tempRef.current, humidityRef.current]);
 
 
-    useEffect(() => {
-        const date = new Date();
+    // useEffect(() => {
+    //     const date = new Date();
 
-        setWarning(level < 70);
+    //     setWarning(level < 70);
 
-        if (charts != null) {
-            charts[0].config.data.labels.push(chartUtil.time(date));
-            charts[0].config.data.datasets[0].data.push(level);
-            charts[0].update();
-            chartUtil.move(charts[0]);
-        }
-    }, [level]);
+    //     if (charts != null) {
+    //         charts[0].config.data.labels.push(chartUtil.time(date));
+    //         charts[0].config.data.datasets[0].data.push(level);
+    //         charts[0].update();
+    //         chartUtil.move(charts[0]);
+    //     }
+    // }, [level]);
 
-    useEffect(() => {
-        const date = new Date();
+    // useEffect(() => {
+    //     const date = new Date();
 
-        if (charts != null) {
-            charts[1].config.data.labels.push(chartUtil.time(date));
-            charts[1].config.data.datasets[0].data.push(temp);
-            charts[1].update();
-            chartUtil.move(charts[1]);
-        }
-    }, [temp]);
+    //     if (charts != null) {
+    //         charts[1].config.data.labels.push(chartUtil.time(date));
+    //         charts[1].config.data.datasets[0].data.push(temp);
+    //         charts[1].update();
+    //         chartUtil.move(charts[1]);
+    //     }
+    // }, [temp]);
 
-    useEffect(() => {
-        const date = new Date();
+    // useEffect(() => {
+    //     const date = new Date();
 
-        if (charts != null) {
-            charts[2].config.data.labels.push(chartUtil.time(date));
-            charts[2].config.data.datasets[0].data.push(humidity);
-            charts[2].update();
-            chartUtil.move(charts[2]);
-        }
-    }, [humidity]);
+    //     if (charts != null) {
+    //         charts[2].config.data.labels.push(chartUtil.time(date));
+    //         charts[2].config.data.datasets[0].data.push(humidity);
+    //         charts[2].update();
+    //         chartUtil.move(charts[2]);
+    //     }
+    // }, [humidity]);
 
     return (
         <div>
