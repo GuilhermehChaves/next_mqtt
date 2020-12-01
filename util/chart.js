@@ -45,12 +45,12 @@ function time(date) {
 }
 
 
-function lastOneMinute(chart) {
+function move(chart) {
     if (chart.config.data.labels.length == 0) {
         return;
     }
 
-    if (chart.config.data.labels.length > 60) {
+    if (chart.config.data.labels.length > 30) {
         chart.config.data.labels.shift();
         chart.config.data.datasets[0].data.shift();
     }
@@ -59,5 +59,5 @@ function lastOneMinute(chart) {
 export default {
     initCharts,
     time,
-    lastOneMinute,
+    move,
 }

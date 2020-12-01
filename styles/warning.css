@@ -1,7 +1,7 @@
 .warning {
-    background: rgb(247, 88, 48);
-    height: 30px;
-    width: 30px;
+    background: rgb(241, 118, 87);
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     display: inline-block;
     display: flex;
@@ -12,9 +12,6 @@
     transition:all 1s ease;
     cursor: pointer;
     color: white;
-    position: absolute;
-    top: 210px;
-    left: 450px;
 }
 
 @keyframes warning-blink {
@@ -24,9 +21,9 @@
 }
 
 .warning-blink {
-  -webkit-animation: warning-blink 1s linear infinite;
-  -moz-animation: warning-blink 1s linear infinite;
-  -ms-animation: warning-blink 1s linear infinite;
-  -o-animation: warning-blink 1s linear infinite;
-  animation: warning-blink 1s linear infinite;
+  -webkit-animation: warning-blink 1.2s linear infinite;
+  -moz-animation: warning-blink 1.2s linear infinite;
+  -ms-animation: warning-blink 1.2s linear infinite;
+  -o-animation: warning-blink 1.2s linear infinite;
+  animation: warning-blink 1.2s linear infinite;
 }

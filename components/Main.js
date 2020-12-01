@@ -1,7 +1,6 @@
 import Circle from "./Circle";
 import Container from './Container';
 import Gradient from './Gradient';
-import Alert from './Alert';
 
 import chartUtil from '../util/chart';
 
@@ -12,6 +11,7 @@ export default function Main() {
     const riverRef = useRef(null);
     const tempRef = useRef(null);
     const humidityRef = useRef(null);
+    const titleRef = useRef(null);
 
     function mqttClient() {
         return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
@@ -21,6 +21,7 @@ export default function Main() {
     const [temp, setTemp] = useState(null);
     const [humidity, setHumidity] = useState(null);
     const [warning, setWarning] = useState(false);
+    const [title, setTitle] = useState("Monitore o rio em tempo real.");
 
     const client = mqttClient();
 
@@ -78,7 +79,7 @@ export default function Main() {
             charts[0].config.data.labels.push(chartUtil.time(date));
             charts[0].config.data.datasets[0].data.push(level);
             charts[0].update();
-            chartUtil.lastOneMinute(charts[0]);
+            chartUtil.move(charts[0]);
         }
     }, [level]);
 
@@ -89,7 +90,7 @@ export default function Main() {
             charts[1].config.data.labels.push(chartUtil.time(date));
             charts[1].config.data.datasets[0].data.push(temp);
             charts[1].update();
-            chartUtil.lastOneMinute(charts[1]);
+            chartUtil.move(charts[1]);
         }
     }, [temp]);
 
@@ -100,16 +101,28 @@ export default function Main() {
             charts[2].config.data.labels.push(chartUtil.time(date));
             charts[2].config.data.datasets[0].data.push(humidity);
             charts[2].update();
-            chartUtil.lastOneMinute(charts[2]);
+            chartUtil.move(charts[2]);
         }
     }, [humidity]);
+
+    useEffect(() => {
+        if (warning) {
+            setTitle("Alerta nível do rio alto!");
+            titleRef.current.classList.add("warning-blink");
+            
+        } else {
+            setTitle("Monitore o rio em tempo real.");
+            titleRef.current.classList.remove("warning-blink");
+        }
+    }, [warning]);
+
 
     return (
         <div>
             <Gradient className="whitetext">
                 <div className="col">
-                    <h1 className="phrase tlt">
-                        Monitore o rio em tempo real.
+                    <h1 className="phrase" ref={titleRef}>
+                        {title}
                     </h1>
 
                     <Container className="container__content--center whitetext">
@@ -121,8 +134,6 @@ export default function Main() {
                             value_name="Nível do rio"
                             value={level == null ? '0' : level}
                             unity="cm">
-
-                            {warning ? <Alert title="Alerta"/> : null}
 
                             <svg className="river" id="Layer_1" enable-background="new 0 0 496 496" height="24"
                                 viewBox="0 0 496 496" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -185,7 +196,7 @@ export default function Main() {
                 </div>
             </Container>
 
-            <hr className="hr_level"/>
+            <hr className="hr_level" />
 
             <Container id="temperature" className="blacktext">
                 <div className="col">
@@ -196,7 +207,7 @@ export default function Main() {
                 </div>
             </Container>
 
-            <hr className="hr_temperature"/>
+            <hr className="hr_temperature" />
 
             <Container id="humidity" className="blacktext">
                 <div className="col">
