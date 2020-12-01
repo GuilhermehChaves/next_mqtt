@@ -4,9 +4,19 @@
     width: 500px;
 }
 
-hr{
+hr {
     height: 3px;
     border: none;
+}
+
+.hr_first {
+    background: rgb(115, 177, 223);
+    background: linear-gradient(
+        45deg,
+        rgba(115, 177, 223, 1) 0%,
+        rgba(30, 161, 195, 0.969625350140056) 51%,
+        rgba(52, 116, 251, 1) 100%
+    );
 }
 
 .hr_level {
