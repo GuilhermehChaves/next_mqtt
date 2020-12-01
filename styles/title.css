@@ -1,0 +1,15 @@
+.title_main {
+    color: #3a3f41;
+    font-size: 33px;
+    margin: 0;
+}
+
+.subtitle_main{
+    color: #3a3f41;
+    font-size: 20px;
+    margin: 5px;
+}
+
+.title_content {
+    height: 150px;
+}

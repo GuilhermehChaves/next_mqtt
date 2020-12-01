@@ -1,17 +1,18 @@
-.warning {
-    background: rgb(241, 118, 87);
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    display: inline-block;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 17px;
-    transition:all 1s ease;
-    cursor: pointer;
-    color: white;
+.img_alert {
+  margin-bottom: 3px;
+  margin-right: 3px;
+}
+
+.alert_text {
+  margin-left: 3px;
+  margin-right: 3px;
+  font-size: 27px;
+  color: #e14041;
+}
+
+.alert_content {
+  position: relative;
+  bottom: 25px;
 }
 
 @keyframes warning-blink {
