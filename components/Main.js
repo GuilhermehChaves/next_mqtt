@@ -22,30 +22,38 @@ export default function Main() {
     const [humidity, setHumidity] = useState(null);
     const [warning, setWarning] = useState(false);
     const [title, setTitle] = useState("Monitore o rio em tempo real.");
+    const [connected, setConnected] = useState(false);
 
-    const client = mqttClient();
+    var client;
 
-    client.on('connect', function () {
-        client.subscribe('level');
-        client.subscribe('temperature');
-        client.subscribe('humidity');
-    });
+    if (!connected) {
+        client = mqttClient();
+
+        client.on('connect', function () {
+            setConnected(true);
+            console.log("connected")
+            client.subscribe('level');
+            client.subscribe('temperature');
+            client.subscribe('humidity');
+        });
+
+
+        client.on('message', function (topic, message) {
+            if (topic == 'level') {
+                setLevel(message.toString());
+            }
+
+            if (topic == 'temperature') {
+                setTemp(message.toString());
+            }
+
+            if (topic == 'humidity') {
+                setHumidity(message.toString());
+            }
+        });
+    }
 
     const [charts, setCharts] = useState(null);
-
-    client.on('message', function (topic, message) {
-        if (topic == 'level') {
-            setLevel(message.toString());
-        }
-
-        if (topic == 'temperature') {
-            setTemp(message.toString());
-        }
-
-        if (topic == 'humidity') {
-            setHumidity(message.toString());
-        }
-    });
 
     useEffect(() => {
         const chartsOptions = [
@@ -109,7 +117,7 @@ export default function Main() {
         if (warning) {
             setTitle("Alerta nível do rio alto!");
             titleRef.current.classList.add("warning-blink");
-            
+
         } else {
             setTitle("Monitore o rio em tempo real.");
             titleRef.current.classList.remove("warning-blink");
