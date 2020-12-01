@@ -47,7 +47,7 @@ export default function Main() {
         
                 if (charts != null) {
                     charts[0].config.data.labels.push(chartUtil.time(date));
-                    charts[0].config.data.datasets[0].data.push(level);
+                    charts[0].config.data.datasets[0].data.push(message.toString());
                     charts[0].update();
                     chartUtil.move(charts[0]);
                 }
@@ -59,7 +59,7 @@ export default function Main() {
 
                 if (charts != null) {
                     charts[1].config.data.labels.push(chartUtil.time(date));
-                    charts[1].config.data.datasets[0].data.push(temp);
+                    charts[1].config.data.datasets[0].data.push(message.toString());
                     charts[1].update();
                     chartUtil.move(charts[1]);
                 }
@@ -71,7 +71,7 @@ export default function Main() {
 
                 if (charts != null) {
                     charts[2].config.data.labels.push(chartUtil.time(date));
-                    charts[2].config.data.datasets[0].data.push(humidity);
+                    charts[2].config.data.datasets[0].data.push(message.toString());
                     charts[2].update();
                     chartUtil.move(charts[2]);
                 }
