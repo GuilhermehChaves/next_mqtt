@@ -6,6 +6,7 @@ import '../styles/nav.css';
 import '../styles/base.css';
 import '../styles/chart.css';
 import '../styles/warning.css';
+import '../styles/title.css';
 
 export default function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
