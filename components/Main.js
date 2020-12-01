@@ -61,7 +61,7 @@ export default function Main() {
                 setLevel(message.toString());
                 const date = new Date();
 
-                setWarning(Number(message.toString()) < 30);
+                setWarning(message.toString() < 30);
 
                 if (charts != null) {
                     charts[0].config.data.labels.push(chartUtil.time(date));
