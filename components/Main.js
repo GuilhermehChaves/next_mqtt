@@ -44,58 +44,59 @@ export default function Main() {
 
     var client;
 
-    if (!connected) {
-        client = mqttClient();
-
-        client.on('connect', function () {
-            setConnected(true);
-            console.log("connected")
-            client.subscribe('level');
-            client.subscribe('temperature');
-            client.subscribe('humidity');
-        });
-
-
-        client.on('message', function (topic, message) {
-            if (topic == 'level') {
-                setLevel(message.toString());
-                const date = new Date();
-
-                setWarning(message.toString() < 30);
-
-                if (charts != null) {
-                    charts[0].config.data.labels.push(chartUtil.time(date));
-                    charts[0].config.data.datasets[0].data.push(message.toString());
-                    charts[0].update();
-                    chartUtil.move(charts[0]);
+    useEffect(() => {
+        if (!connected) {
+            client = mqttClient();
+    
+            client.on('connect', function () {
+                setConnected(true);
+                client.subscribe('level');
+                client.subscribe('temperature');
+                client.subscribe('humidity');
+            });
+    
+    
+            client.on('message', function (topic, message) {
+                if (topic == 'level') {
+                    setLevel(message.toString());
+                    const date = new Date();
+    
+                    setWarning(message.toString() < 30);
+    
+                    if (charts != null) {
+                        charts[0].config.data.labels.push(chartUtil.time(date));
+                        charts[0].config.data.datasets[0].data.push(message.toString());
+                        charts[0].update();
+                        chartUtil.move(charts[0]);
+                    }
                 }
-            }
-
-            if (topic == 'temperature') {
-                setTemp(message.toString());
-                const date = new Date();
-
-                if (charts != null) {
-                    charts[1].config.data.labels.push(chartUtil.time(date));
-                    charts[1].config.data.datasets[0].data.push(message.toString());
-                    charts[1].update();
-                    chartUtil.move(charts[1]);
+    
+                if (topic == 'temperature') {
+                    setTemp(message.toString());
+                    const date = new Date();
+    
+                    if (charts != null) {
+                        charts[1].config.data.labels.push(chartUtil.time(date));
+                        charts[1].config.data.datasets[0].data.push(message.toString());
+                        charts[1].update();
+                        chartUtil.move(charts[1]);
+                    }
                 }
-            }
-
-            if (topic == 'humidity') {
-                setHumidity(message.toString());
-                const date = new Date();
-
-                if (charts != null) {
-                    charts[2].config.data.labels.push(chartUtil.time(date));
-                    charts[2].config.data.datasets[0].data.push(message.toString());
-                    charts[2].update();
-                    chartUtil.move(charts[2]);
+    
+                if (topic == 'humidity') {
+                    setHumidity(message.toString());
+                    const date = new Date();
+    
+                    if (charts != null) {
+                        charts[2].config.data.labels.push(chartUtil.time(date));
+                        charts[2].config.data.datasets[0].data.push(message.toString());
+                        charts[2].update();
+                        chartUtil.move(charts[2]);
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
+    }, [connected]);
 
     const [charts, setCharts] = useState(null);
 
