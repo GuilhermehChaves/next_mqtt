@@ -14,7 +14,6 @@ export default function Main() {
     const titleRef = useRef(null);
 
     function mqttClient() {
-        console.log(process.env.PUBLIC_MQTT_BROKER);
         return mqtt.connect(process.env.PUBLIC_MQTT_BROKER);
     }
 
