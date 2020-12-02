@@ -123,8 +123,10 @@ export default function Main() {
         <div>
             <Container id="river" className="blacktext">
                 <div className="col title_content">
-                    <p className="title_main">Cidades inteligentes - IOT: Una Betim </p>
-                    <p className="subtitle_main">Monitoramento online do nível do rio Betim </p>
+                <Image
+                    src="/fundo.png"
+                    width={960}
+                    height={70} />
                 </div>
             </Container>
 
