@@ -17,21 +17,21 @@ export default function Main() {
     }
 
     function Alert() {
-        return(
+        return (
             <span className="alert_content warning-blink">
-                <Image 
+                <Image
                     src="/alert2.png"
                     width={25}
                     height={25}
-                    className="img_alert"/>
+                    className="img_alert" />
 
                 <span className="alert_text">Cuidado nível alto - Risco de transbordamento</span>
-                
-                <Image 
+
+                <Image
                     src="/alert2.png"
                     width={25}
                     height={25}
-                    className="img_alert"/>
+                    className="img_alert" />
             </span>
         );
     }
@@ -45,24 +45,22 @@ export default function Main() {
     var client;
 
     useEffect(() => {
-        if (!connected) {
             client = mqttClient();
-    
+
             client.on('connect', function () {
                 setConnected(true);
                 client.subscribe('level');
                 client.subscribe('temperature');
                 client.subscribe('humidity');
             });
-    
-    
+
             client.on('message', function (topic, message) {
                 if (topic == 'level') {
                     setLevel(message.toString());
                     const date = new Date();
-    
+
                     setWarning(message.toString() < 30);
-    
+
                     if (charts != null) {
                         charts[0].config.data.labels.push(chartUtil.time(date));
                         charts[0].config.data.datasets[0].data.push(message.toString());
@@ -70,11 +68,11 @@ export default function Main() {
                         chartUtil.move(charts[0]);
                     }
                 }
-    
+
                 if (topic == 'temperature') {
                     setTemp(message.toString());
                     const date = new Date();
-    
+
                     if (charts != null) {
                         charts[1].config.data.labels.push(chartUtil.time(date));
                         charts[1].config.data.datasets[0].data.push(message.toString());
@@ -82,11 +80,11 @@ export default function Main() {
                         chartUtil.move(charts[1]);
                     }
                 }
-    
+
                 if (topic == 'humidity') {
                     setHumidity(message.toString());
                     const date = new Date();
-    
+
                     if (charts != null) {
                         charts[2].config.data.labels.push(chartUtil.time(date));
                         charts[2].config.data.datasets[0].data.push(message.toString());
@@ -95,7 +93,6 @@ export default function Main() {
                     }
                 }
             });
-        }
     }, [connected]);
 
     const [charts, setCharts] = useState(null);
@@ -140,7 +137,7 @@ export default function Main() {
                         <canvas ref={riverRef}></canvas>
                     </div>
 
-                    {!warning ? null : Alert() }
+                    {!warning ? null : Alert()}
                 </div>
 
             </Container>
