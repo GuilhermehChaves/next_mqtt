@@ -56,12 +56,11 @@ export default function Main() {
 
             client.on('message', function (topic, message) {
                 if (topic == 'level') {
-                    setLevel(message.toString());
                     const date = new Date();
-
                     const distanceNumber = Number(message.toString());
                     const correctDistance = 30 - distanceNumber;
 
+                    setLevel(correctDistance);
                     setWarning(correctDistance > 16);
 
                     if (charts != null) {
