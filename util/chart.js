@@ -22,7 +22,8 @@ function initCharts(options) {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            suggestedMax: 30,
+                            suggestedMin: 0,
                         }
                     }]
                 }
