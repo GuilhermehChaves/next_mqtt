@@ -58,11 +58,11 @@ export default function Main() {
                 if (topic == 'level') {
                     setLevel(message.toString());
                     const date = new Date();
-                    
+
                     const distanceNumber = Number(message.toString());
                     const correctDistance = 30 - distanceNumber;
 
-                    setWarning(correctDistance > 18);
+                    setWarning(correctDistance < 16);
 
                     if (charts != null) {
                         charts[0].config.data.labels.push(chartUtil.time(date));
