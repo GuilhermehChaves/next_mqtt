@@ -72,19 +72,19 @@ export default function Main() {
                 }
 
                 if (topic == 'temperature') {
-                    setTemp(message.toString());
+                    setTemp(Number(message.toString()) + 22);
                     const date = new Date();
 
                     if (charts != null) {
                         charts[1].config.data.labels.push(chartUtil.time(date));
-                        charts[1].config.data.datasets[0].data.push(message.toString());
+                        charts[1].config.data.datasets[0].data.push(Number(message.toString()) + 75);
                         charts[1].update();
                         chartUtil.move(charts[1]);
                     }
                 }
 
                 if (topic == 'humidity') {
-                    setHumidity(Number(message.toString()) + 40);
+                    setHumidity(Number(message.toString()) + 75);
                     const date = new Date();
 
                     if (charts != null) {
