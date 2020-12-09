@@ -62,7 +62,7 @@ export default function Main() {
                     const distanceNumber = Number(message.toString());
                     const correctDistance = 30 - distanceNumber;
 
-                    setWarning(correctDistance < 16);
+                    setWarning(correctDistance > 16);
 
                     if (charts != null) {
                         charts[0].config.data.labels.push(chartUtil.time(date));
