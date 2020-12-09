@@ -84,12 +84,12 @@ export default function Main() {
                 }
 
                 if (topic == 'humidity') {
-                    setHumidity(message.toString());
+                    setHumidity(Number(message.toString()) + 40);
                     const date = new Date();
 
                     if (charts != null) {
                         charts[2].config.data.labels.push(chartUtil.time(date));
-                        charts[2].config.data.datasets[0].data.push(message.toString());
+                        charts[2].config.data.datasets[0].data.push(Number(message.toString()) + 40);
                         charts[2].update();
                         chartUtil.move(charts[2]);
                     }
